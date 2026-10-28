@@ -1,0 +1,5 @@
+import { useState } from 'react';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { Leaf, Menu, X, LogOut } from 'lucide-react';
+import { getUser } from '../utils/storage';
+export default function Navbar(){const [open,setOpen]=useState(false);const navigate=useNavigate();const user=getUser();const links=[['/home','Home'],['/plants','Explore Plants'],['/indoor','Indoor'],['/outdoor','Outdoor'],['/my-plants','My Plants'],['/watering','Watering'],['/guide','Care Guide'],['/profile','Profile']];return <header className="site-header"><div className="nav-inner"><Link to="/home" className="logo"><Leaf size={26}/> GreenNest<span className="logo-dot">.</span></Link><button className="mobile-menu" aria-label="Toggle menu" onClick={()=>setOpen(!open)}>{open?<X/>:<Menu/>}</button><nav className={open?'nav-links open':'nav-links'}>{links.map(([path,label])=><NavLink onClick={()=>setOpen(false)} key={path} to={path} className={({isActive})=>isActive?'active':''}>{label}</NavLink>)}{user&&<button className="logout" onClick={()=>{localStorage.removeItem('greennest_user');navigate('/login')}}><LogOut size={16}/> Logout</button>}</nav></div></header>}
